@@ -1,0 +1,27 @@
+name: Automatizar Licitaciones y BOE
+
+on:
+  schedule:
+    # Se ejecuta todos los viernes a las 20:00 UTC
+    - cron: '0 20 * * 5'
+  workflow_dispatch:
+
+jobs:
+  correr-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependencias
+        run: |
+          pip install --upgrade pip
+          pip install requests
+
+      - name: Ejecutar envio de alerta integral
+        run: python enviar_alerta_integral.py
