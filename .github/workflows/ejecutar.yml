@@ -1,16 +1,15 @@
-name: Automatizar Licitaciones y BOE
+name: Ejecutar script automáticamente
 
 on:
   schedule:
-    # Se ejecuta todos los viernes a las 20:00 UTC
     - cron: '0 20 * * 5'
   workflow_dispatch:
 
 jobs:
-  correr-script:
+  run-script:
     runs-on: ubuntu-latest
     steps:
-      - name: Clonar repositorio
+      - name: Copiar repositorio
         uses: actions/checkout@v4
 
       - name: Configurar Python
@@ -20,8 +19,11 @@ jobs:
 
       - name: Instalar dependencias
         run: |
-          pip install --upgrade pip
-          pip install requests
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
 
-      - name: Ejecutar envio de alerta integral
+      - name: Ejecutar script de alertas
         run: python enviar_alerta_integral.py
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
