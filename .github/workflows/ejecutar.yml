@@ -2,7 +2,7 @@ name: Ejecutar script automáticamente
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '0 20 * * 5'
   workflow_dispatch:
 
 jobs:
